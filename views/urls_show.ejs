@@ -8,6 +8,11 @@
 <body>
 <body>
   <% include ./partials/_header.ejs %>
+  <form method="POST" action="/urls/<%= shortURL %>">
+  <button name="Update">Update</button>
+    <label for="longURL">Enter a URL:</label>
+    <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
+</form>
 </p>
 </body>
 </html>
