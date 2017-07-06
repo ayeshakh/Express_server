@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <title>TinyApp</title>
+</head>
+<body>
+<header>
+</header>
+<% if(email === undefined){ %>
+    <form action="/register" method="POST" style="margin:150px;">
+    <label for="email">Enter Your Email:</label>
+    <input type="email" name ="email" placeholder="abcd@gmail.com" style="width: 300px">
+    <label for="password">Enter your password :</label>
+    <input type="password" name ="password" placeholder="password" style="width: 300px">
+    <button name="Register">Register</button>
+    </form>
+  <% } else{ %>
+  <form action="/login" method="POST" style="margin:150px;">
+  </form>
+ </h1>
+  <% } %>
+
+  <p>
+  </p>
+</body>
+</html>
