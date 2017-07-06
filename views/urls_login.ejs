@@ -8,23 +8,16 @@
 <header>
 <%- include ./partials/_header.ejs %>
 </header>
-<% if(user === undefined){ %>
-    <form action="/register" method="POST" style="margin:150px;">
+  <p>
+  <% if(email === undefined){ %>
+    <form action="/login" method="POST" style="margin:150px;">
     <label for="email">Enter Your Email:</label>
     <input type="email" name ="email" placeholder="abcd@gmail.com" style="width: 300px">
     <label for="password">Enter your password :</label>
     <input type="password" name ="password" placeholder="password" style="width: 300px">
-    <button name="Register">Register</button>
+    <button name="Login">Login</button>
     </form>
-  <% } else{ %>
-  <h1>
-  <form action="/logout" method="POST" style="margin:150px;">
-    <button type="Logout">Logout</button>
-  </form>
- </h1>
   <% } %>
-
-  <p>
-  </p>
+</p>
 </body>
 </html>
