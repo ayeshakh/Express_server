@@ -110,7 +110,8 @@ let longURL = req.params.longURL;
     //console.log(urls[shortURL]);
   }
   templateVars = {
-    urls : results
+    urls : results,
+    user: users[user_id]
   }
   console.log(results);
   //let templateVars = {
@@ -142,7 +143,7 @@ app.get("/login", (req, res) => {
     res.redirect("/urls")
   }
   else{
-    res.render("urls_login", {email: undefined})
+    res.render("urls_login", {email: undefined, user:users[user_id]})
   }
 });
 
@@ -159,11 +160,15 @@ res.end("<html><body>Logout<b></body></html>\n");
   // }
 app.get("/urls/new", (req, res) => {
   let user_id =req.session.user_id;
+  templateVars ={
+    email: undefined,
+    user: users[user_id]
+  }
   if(user_id){
     res.render("urls_new");
    }
    else{
-     res.render("urls_login", {email: undefined})
+     res.render("urls_login", templateVars);
    }
 });
 
