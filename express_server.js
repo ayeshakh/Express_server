@@ -107,11 +107,12 @@ let longURL = req.params.longURL;
     if(urls[shortURL].user_id === user_id){
       results[shortURL] = urls[shortURL]
     }
-    console.log(urls[shortURL]);
+    //console.log(urls[shortURL]);
   }
   templateVars = {
     urls : results
   }
+  console.log(results);
   //let templateVars = {
     //user: users[user_id],
     //urls: results };
@@ -198,18 +199,20 @@ app.post("/urls", (req, res) => {
 
 app.get("/u/:shortURL", (req, res) => {
   let shortURL = req.params.shortURL
-  let longURL = urlDatabase.user_id[shortURL]
+  console.log('shortURL:', shortURL);
+  let longURL = urlDatabase[shortURL].longURL;
+  console.log('longURL:', longURL);
   res.redirect(longURL);
 });
 
  app.post("/urls/:id/delete", (req, res) => {
-  delete urlDatabase.user_id[req.params.user_id]
+  delete urlDatabase[req.params.id]
   res.redirect("/urls")
   });
 
 app.post("/urls/:id", (req, res) => {
   let longURL = req.body.longURL
-  urlDatabase.user_id[req.params.user_id] = longURL;
+  urlDatabase[shortURL].longURL = longURL;
   res.redirect("/urls")
   });
 
