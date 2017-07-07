@@ -8,7 +8,7 @@
 <header>
 <%- include ./partials/_header.ejs %>
 </header>
-<% if(user === undefined){ %>
+<% if(typeof user !== undefined){ %>
     <form action="/register" method="POST" style="margin:150px;">
     <label for="email">Enter Your Email:</label>
     <input type="email" name ="email" placeholder="abcd@gmail.com" style="width: 300px">

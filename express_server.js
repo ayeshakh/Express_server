@@ -74,11 +74,23 @@ app.get("/urls.json", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-  let id = req.cookies["user_id"]
+let id =req.cookies["user_id"];
+let longURL = req.params.longURL;
+// let list = {};
+// function urlsForUser(id){
+//   for (urlDatabase[shortURL] in urlDatabase){
+//     if(id === urlDatabase[shortURL].id){
+//       list += {shortURL: url[shortURL], longURL: longURL[longURL]}
+//     }
+//   }
+// return list;
+// }
+//urlsForUser();
+//app.get("/urls", (req, res) => {
+  //let id = req.cookies["user_id"]
   let templateVars = {
     user: users[id],
-    urls: urlDatabase
-  };
+    urls: urlDatabase };
 
   if(id){
     res.render("urls_index", templateVars);
@@ -113,17 +125,21 @@ app.get("/logout", (req, res) => {
 res.end("<html><body>Logout<b></body></html>\n");
 });
 
+
+  // let id =req.cookies["user_id"]
+  // console.log(id);
+  // let templateVars = {
+  //   user: users[id],
+  //   urls: urlDatabase
+  // }
 app.get("/urls/new", (req, res) => {
   let id =req.cookies["user_id"]
-  let templateVars = {
-    user: users[id]
-  }
   if(id){
-    res.render("urls_new", templateVars);
-  }
-  else{
-    res.render("urls_login", {email: undefined})
-  }
+    res.render("urls_new");
+   }
+   else{
+     res.render("urls_login", {email: undefined})
+   }
 });
 
 app.get("/urls/:id", (req, res) => {
@@ -145,20 +161,15 @@ res.render("urls_register", {user: undefined});
 });
 
 app.post("/urls", (req, res) => {
-   let shortURL = generateRandomString();
+  let shortURL = generateRandomString();
+  let id =req.cookies["user_id"]
+  console.log(id);
   let longURL = req.body.longURL;
-  urlDatabase[shortURL] = longURL;
-  res.redirect("/urls");
-  //let id =req.cookies["user_id"]
-  //let templateVars = {
-    //user: users[id]
+  urlDatabase[shortURL]= {longURL: longURL, shortUrl: shortURL, id : id}
+  console.log(urlDatabase);
 
-  //}
-  //let shortURL = generateRandomString();
-  // let longURL = req.body.longURL;
-  // urlDatabase[shortURL] = longURL;
-  // res.redirect("/urls");
-});
+  res.redirect("/urls");
+  });
 
 app.get("/u/:shortURL", (req, res) => {
   let shortURL = req.params.shortURL
@@ -187,6 +198,7 @@ app.post("/login", (req, res) => {
 
     if((newemail === number.email) && (newpassword === number.password)){
       let id = number.id
+      //console.log(id);
       res.cookie("user_id", id)
       res.redirect("/urls")
       return

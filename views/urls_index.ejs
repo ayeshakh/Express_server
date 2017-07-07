@@ -9,7 +9,7 @@
 <%- include ./partials/_header.ejs %>
 </header>
     <% for(var key in urls) { %>
-  <li> <a href = "http://localhost:8080/u/<%= key %>"> <%= key %> </a>: <a href="<%= urls[key] %>"> <%= urls[key] %> </a></li>
+  <li> <a href = "http://localhost:8080/u/<%= key %>"> <%= key %> </a>: <a href="<%= urls[key].longURL %>"> <%= urls[key].longURL %> </a></li>
    <form method="POST" action="/urls/<%= key %>/delete">
     <button type="Delete">Delete</button>
     <a href="/urls/<%= key %>"> Edit </a>
