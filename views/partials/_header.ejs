@@ -7,6 +7,7 @@
 <body>
 <p>
   <% if(typeof user == 'object' && user){ %>
+  <%= user.email %>
   <form action="/logout" method="POST">
   <button type="Logout">Logout</button>
   </form>
