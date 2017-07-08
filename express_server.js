@@ -113,7 +113,7 @@ let longURL = req.params.longURL;
     urls : results,
     user: users[user_id]
   }
-  console.log(results);
+  //console.log(results);
   //let templateVars = {
     //user: users[user_id],
     //urls: results };
@@ -176,7 +176,7 @@ app.get("/urls/:id", (req, res) => {
 let user_id =req.session.user_id
   let templateVars = {
     user: users[user_id],
-    shortURL: req.params.user_id };
+    shortURL: req.params.id };
   if(user_id){
     res.render("urls_show", templateVars);
   }
@@ -204,9 +204,9 @@ app.post("/urls", (req, res) => {
 
 app.get("/u/:shortURL", (req, res) => {
   let shortURL = req.params.shortURL
-  console.log('shortURL:', shortURL);
+  //console.log('shortURL:', shortURL);
   let longURL = urlDatabase[shortURL].longURL;
-  console.log('longURL:', longURL);
+  //console.log('longURL:', longURL);
   res.redirect(longURL);
 });
 
@@ -216,35 +216,31 @@ app.get("/u/:shortURL", (req, res) => {
   });
 
 app.post("/urls/:id", (req, res) => {
-  let longURL = req.body.longURL
-  urlDatabase[shortURL].longURL = longURL;
+  let longURL = req.body.longURL;
+  urlDatabase[req.params.id].longURL = longURL;
   res.redirect("/urls")
   });
 
 app.post("/login", (req, res) => {
   let newemail = req.body.email
   let newpassword = req.body.password
-
-
   //console.log("users:" , users);
   for (let list in users){
     let myUsers = users[list];
     //console.log(newemail, newpassword, number.email, number.password);
-
-    if((newemail === myUsers.email) && (bcrypt.compareSync(newpassword, myUsers.password))){
+     if((newemail === myUsers.email) && (bcrypt.compareSync(newpassword, myUsers.password))){
       let user_id = myUsers.user_id;
       //console.log(id);
       req.session.user_id = user_id;
       res.redirect("/urls")
       return
     }
-    else if ((newemail === myUsers.email) && bcrypt.compareSync("newpassword", myUsers.password)){
+      else if ((newemail === myUsers.email) && (!bcrypt.compareSync(newpassword, myUsers.password))){
       res.status(403).send("Your password is incorrect. Please enter your correct password");
       return
     }
   }
-
-    res.status(403).send("Your email cannot be found. Please register your email first");
+      res.status(403).send("Your email cannot be found. Please register your email first");
       return;
       //console.log("Your email cannot be found. Please register your email first");
 });
@@ -260,16 +256,17 @@ app.post("/register", (req, res) => {
   let password = req.body.password
   const hashed_password = bcrypt.hashSync(password, 10);
   let user_id = generateRandomString();
-  if ((email === "")|| (password === "")){
-    res.status(400).send("Your email or password is empty. Please enter all the fields");
-    //redirect("/register")
-  }
     for (let item in users){
       let value = users[item];
       if(email === value.email){
       res.status(400).send("This email id already exists. Please enter another email id.");
       return;
       }
+      else if ((email === "")|| (password === "")){
+    res.status(400).send("Your email or password is empty. Please enter all the fields");
+    return;
+    //redirect("/register")
+     }
     }
     req.session.user_id = user_id;
     users[user_id] = {"user_id": user_id, "email":email, "password": hashed_password}
